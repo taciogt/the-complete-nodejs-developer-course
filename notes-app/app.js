@@ -1,22 +1,29 @@
-// const add = require('./utils.js')
-// const sum = add(4, -2)
-// console.log(sum)
+const getNotes = require('./notes.js')
 
-// Challenge: Define and use a function in a new file
+const msg = getNotes()
+console.log(msg)
+
+
+// Challenge: Use the chalk library in your project
 //
-// 1. Create a new file called notes.js
-// 2. Create getnotes function that returns "Your notes..."
-// 3. Export getNotes function
-// 4. From app.js, load in and call the function printing message to console
-
-// const notes = require('./notes.js')
+// 1. Install version 2.4.1 of chalk
+// 2. Load chalk into app.js
+// 3. Use it to print the string "Success!" to the console in green
+// 4. Test your work
 //
-// console.log(notes())
+// Bonus: Use docs to mess around with other styles. Make text bold and inversed
 
-const validator = require('validator')
+const chalk = require('chalk');
+const log = console.log;
 
-console.log(validator.isEmail('john@email.com'))
-console.log(validator.isEmail('john.not-email'))
+log(chalk.green("Success!"))
+log(chalk.greenBright("Big Success!"))
+log(chalk.bold.greenBright("Bigger Success!"))
+log(chalk.red("Failure!"))
+log(chalk.redBright("Big Failure!"))
+log(chalk.underline.redBright("Bigger Failure!"))
 
-console.log(validator.isURL('not.a-url'))
-console.log(validator.isURL('https://this.is-valid.url'))
+log(chalk.inverse("Inversed!"))
+log(chalk.yellow.inverse("Inversed!"))
+log(chalk.yellow.bgBlue("Inversed!"))
+log(chalk.yellow.bgBlue.inverse("Inversed!"))
