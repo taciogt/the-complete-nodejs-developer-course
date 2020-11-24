@@ -1,1 +1,1 @@
-# the-complete-nodejs-developer-course
+# The Complete Node.js Developer Course
