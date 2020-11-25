@@ -19,7 +19,11 @@ const addNote = function (title, body) {
     } else {
         console.log('Note title taken!')
     }
+}
 
+const removeNote = function(title){
+    // const notes = loadNotes()
+    console.log('Removing note "' + title + '"')
 }
 
 const notesFilePath = 'notes.json'
@@ -42,5 +46,6 @@ const loadNotes = function () {
 
 module.exports = {
     getNotes: getNotes,
-    addNote: addNote
+    addNote: addNote,
+    removeNote: removeNote
 }
