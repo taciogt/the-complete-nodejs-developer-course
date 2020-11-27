@@ -22,8 +22,11 @@ const addNote = function (title, body) {
 }
 
 const removeNote = function(title){
-    // const notes = loadNotes()
-    console.log('Removing note "' + title + '"')
+    const notes = loadNotes()
+    const filteredNotes = notes.filter(function(note){
+        return note.title !== title
+    })
+    saveNotes(filteredNotes)
 }
 
 const notesFilePath = 'notes.json'
@@ -42,7 +45,6 @@ const loadNotes = function () {
         return []
     }
 }
-
 
 module.exports = {
     getNotes: getNotes,
