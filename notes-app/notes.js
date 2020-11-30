@@ -29,13 +29,11 @@ const removeNote = function(title){
     })
 
     if (notesToKeep.length < notes.length){
+        saveNotes(notesToKeep)
         console.log(chalk.black.bgGreen("Note removed!"))
     } else {
         console.log(chalk.black.bgRed("No note found!"))
-
     }
-
-    saveNotes(notesToKeep)
 }
 
 const notesFilePath = 'notes.json'
