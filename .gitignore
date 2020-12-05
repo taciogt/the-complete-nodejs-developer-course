@@ -6,3 +6,6 @@ node_modules/
 
 # data
 notes.json
+
+# secrets
+secrets/
