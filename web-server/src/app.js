@@ -2,7 +2,11 @@ const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
 
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
+
 const app = express()
+
 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '..', 'public')
@@ -40,25 +44,36 @@ app.get('/help', (req, res) => {
 })
 
 app.get('/weather', (req, res) => {
-    const address = req.query.address
-    if (address === undefined) {
-        res.status(400).send({
+    const locationQuery = req.query.address
+    if (locationQuery === undefined) {
+        return res.status(400).send({
             error: 'You must provide an address'
         })
-    } else {
-        res.send({
-            forecast: 'Hardcoded forecast',
-            location: address
-        })
     }
+    geocode(locationQuery, (error, {latitude, longitude, location} = {}) => {
+        if (error) {
+            return res.status(400).send({error})
+        }
+
+        forecast(latitude, longitude, (error, {message}) => {
+            if (error) {
+                return res.status(400).send({error})
+            }
+            return res.send({
+                forecast: message,
+                location,
+                query: locationQuery
+            })
+        })
+    })
 })
 
-// Goal: Update weather endpoint to accept address
+// Goal: Wire up /weather
 //
-// 1. No address? Send back an error message
-// 2. Address? Send back the static JSON
-//    - Add address property onto JSON which returns the provided address
-// 3. Test /weather and /weather?address=philadelphia
+// 1. Require geocode/forecast into app.js
+// 2. Use the address to geocode
+// 3. Use the coordinates to get forecast
+// 4. Send back the real forecast and location
 
 app.get('/products', (req, res) => {
     if (req.query.search === undefined) {
@@ -89,16 +104,6 @@ app.get('*', (req, res) => {
         errorMessage: 'Page not found'
     })
 })
-
-// Goal: Create and render a 404 page with handlebars
-//
-// 1. Setup the template to render the header and footer
-// 2. Setup the template to render an error message in paragraph
-// 3. Render the template for both 404 routes
-//    - Page not found
-//    - Help article not found
-// 4. Test your work. Visit /what and /help/units
-
 
 app.listen(3000, () => {
     console.log('Server is up on port 3000.')
