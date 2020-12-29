@@ -34,22 +34,50 @@ app.get('/about', (req, res) => {
 app.get('/help', (req, res) => {
     res.render('help', {
         title: 'Help',
-        name:'Tácio',
+        name: 'Tácio',
         message: 'hope this message helps someone'
     })
 })
 
 app.get('/weather', (req, res) => {
+    const address = req.query.address
+    if (address === undefined) {
+        res.status(400).send({
+            error: 'You must provide an address'
+        })
+    } else {
+        res.send({
+            forecast: 'Hardcoded forecast',
+            location: address
+        })
+    }
+})
+
+// Goal: Update weather endpoint to accept address
+//
+// 1. No address? Send back an error message
+// 2. Address? Send back the static JSON
+//    - Add address property onto JSON which returns the provided address
+// 3. Test /weather and /weather?address=philadelphia
+
+app.get('/products', (req, res) => {
+    if (req.query.search === undefined) {
+        return res.send({
+            error: 'You must provide a search term'
+        })
+    }
+
+    console.log(req.query)
+    console.log(req.query.search)
     res.send({
-        forecast: 'It is snowing',
-        location: 'Ushuaia'
+        products: []
     })
 })
 
 app.get('/help/*', (req, res) => {
     res.render('404', {
         title: 'Help',
-        name:'Tácio',
+        name: 'Tácio',
         errorMessage: 'Help article not found'
     })
 })
@@ -57,7 +85,7 @@ app.get('/help/*', (req, res) => {
 app.get('*', (req, res) => {
     res.render('404', {
         title: 'Help',
-        name:'Tácio',
+        name: 'Tácio',
         errorMessage: 'Page not found'
     })
 })
