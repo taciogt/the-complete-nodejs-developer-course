@@ -45,7 +45,8 @@ app.get('/help', (req, res) => {
 
 app.get('/weather', (req, res) => {
     const locationQuery = req.query.address
-    if (locationQuery === undefined) {
+
+    if (locationQuery === undefined || locationQuery === '') {
         return res.status(400).send({
             error: 'You must provide an address'
         })
@@ -67,13 +68,6 @@ app.get('/weather', (req, res) => {
         })
     })
 })
-
-// Goal: Wire up /weather
-//
-// 1. Require geocode/forecast into app.js
-// 2. Use the address to geocode
-// 3. Use the coordinates to get forecast
-// 4. Send back the real forecast and location
 
 app.get('/products', (req, res) => {
     if (req.query.search === undefined) {
